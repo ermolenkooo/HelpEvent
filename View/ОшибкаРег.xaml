@@ -1,0 +1,14 @@
+﻿<Window x:Class="HelpEvent.View.ОшибкаРег"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HelpEvent.View"
+        mc:Ignorable="d"
+        Title="Ошибка Регистрации" Height="100" Width="355">
+    <Grid Background="#FFEBCD">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Пользователь с таким логином уже существует!" TextWrapping="Wrap" FontFamily="Arial Black" FontSize="20" Foreground="Sienna"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,165 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HelpEvent"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:entities="clr-namespace:DAL.entities;assembly=DAL" x:Class="HelpEvent.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+
+    <Window.Resources>
+        <local:IsNullConverter x:Key="isNullConverter"/> <!--войти-->
+        <Style x:Key="styleBut" TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding User, Converter={StaticResource isNullConverter}}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut1" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Visibility" Value="Hidden" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding User, Converter={StaticResource isNullConverter}}" Value="False">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <ScrollViewer>
+    <Grid Background="#FFF8DC">
+            <StackPanel>
+                <Border Margin="0" Background="#FFE4C4" VerticalAlignment="Top" Padding="0 8 0 8" >
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0"/>
+                    </Border.Effect>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="35" Height="35" HorizontalAlignment="Right" Margin="10 0" Command="{Binding RemCommand}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\love.png"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Content="Войти" Command="{Binding LogInCommand}" Margin="0 0 10 0" 
+                        HorizontalAlignment="Right" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut}">
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <Border>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat1Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\kino.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat3Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\thea.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat4Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\soccer.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat7Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\book.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat5Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\humor.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat2Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\art.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat6Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="D:\music.png"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <Border>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ComboBox ItemsSource="{Binding Cities}" SelectedItem="{Binding SelectedCity}" Margin="20 5" Foreground="Sienna" BorderBrush="Sienna" 
+                                  materialDesign:HintAssist.Hint="Выберите город" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name_city}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" Margin="20 5" Foreground="Sienna" BorderBrush="Sienna" materialDesign:HintAssist.Hint="Выберите тип мероприятия" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name_type}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Content="Найти" Command="{Binding SearchCommand}" Margin="20 5" Background="Chocolate" BorderBrush="Sienna"/>
+                    </StackPanel>
+                </Border>
+                <Border>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <ListBox x:Name="eventsList1" ItemsSource="{Binding Events1}" SelectedItem="{Binding SelectedEvent}" Width="300" HorizontalAlignment="Center" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
+                        <ListBox.Effect>
+                            <DropShadowEffect BlurRadius="20" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
+                        </ListBox.Effect>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="15">
+                                        <Image Source="{Binding Path=Poster}" Width="200" Height="300"></Image>
+                                    <TextBlock FontSize="18" Text="{Binding Path=Name}" />
+                                    <TextBlock Text="{Binding Path=Time}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <i:InvokeCommandAction
+                            Command="{Binding InfoCommand}"
+                            CommandParameter="{Binding SelectedEvent}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListBox>
+                        <ListBox x:Name="eventsList2" ItemsSource="{Binding Events2}" SelectedItem="{Binding SelectedEvent}" Width="300" HorizontalAlignment="Center" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
+                            <ListBox.Effect>
+                                <DropShadowEffect BlurRadius="20" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
+                            </ListBox.Effect>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="15">
+                                        <Image Source="{Binding Path=Poster}" Width="200" Height="300"></Image>
+                                        <TextBlock FontSize="18" Text="{Binding Path=Name}" />
+                                        <TextBlock Text="{Binding Path=Time}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction
+                            Command="{Binding InfoCommand}"
+                            CommandParameter="{Binding SelectedEvent}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

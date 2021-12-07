@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,6 +38,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=2.0.3.2, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignColors.2.0.3\lib\net452\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -44,7 +51,12 @@
       <HintPath>packages\MaterialDesignThemes.4.2.1\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,7 +75,73 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="IRequireViewIdentification.cs" />
+    <Compile Include="IsNullConverter.cs" />
+    <Compile Include="Model\BookingList.cs" />
+    <Compile Include="Model\BookingModel.cs" />
+    <Compile Include="Model\CategoryList.cs" />
+    <Compile Include="Model\CategoryModel.cs" />
+    <Compile Include="Model\CityList.cs" />
+    <Compile Include="Model\CityModel.cs" />
+    <Compile Include="Model\Event.cs" />
+    <Compile Include="Model\EventList.cs" />
+    <Compile Include="Model\OrganizerList.cs" />
+    <Compile Include="Model\OrganizerModel.cs" />
+    <Compile Include="Model\ReminderList.cs" />
+    <Compile Include="Model\ReminderModel.cs" />
+    <Compile Include="Model\RowModel.cs" />
+    <Compile Include="Model\TicketList.cs" />
+    <Compile Include="Model\TicketModel.cs" />
+    <Compile Include="Model\TypeList.cs" />
+    <Compile Include="Model\TypeModel.cs" />
+    <Compile Include="Model\UserList.cs" />
+    <Compile Include="Model\UserModel.cs" />
+    <Compile Include="Model\VenueList.cs" />
+    <Compile Include="Model\VenueModel.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModel\AppViewModel.cs" />
+    <Compile Include="ViewModel\AutoViewModel.cs" />
+    <Compile Include="ViewModel\BookingViewModel.cs" />
+    <Compile Include="ViewModel\EventViewModel.cs" />
+    <Compile Include="ViewModel\EvViewModel.cs" />
+    <Compile Include="ViewModel\RegViewModel.cs" />
+    <Compile Include="ViewModel\ReminderViewModel.cs" />
+    <Compile Include="ViewModel\RemViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
+    <Compile Include="View\Бронирование.xaml.cs">
+      <DependentUpon>Бронирование.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Уведомление.xaml.cs">
+      <DependentUpon>Уведомление.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Мероприятие.xaml.cs">
+      <DependentUpon>Мероприятие.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Напоминания.xaml.cs">
+      <DependentUpon>Напоминания.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Авторизация.xaml.cs">
+      <DependentUpon>Авторизация.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ОшибкаВхода.xaml.cs">
+      <DependentUpon>ОшибкаВхода.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ОшибкаРег.xaml.cs">
+      <DependentUpon>ОшибкаРег.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Регистрация.xaml.cs">
+      <DependentUpon>Регистрация.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowManager.cs" />
+    <Page Include="View\Бронирование.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Уведомление.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -71,10 +149,34 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Мероприятие.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Напоминания.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Авторизация.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ОшибкаВхода.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ОшибкаРег.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Регистрация.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -95,6 +197,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\DAL.entities.Event.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,6 +206,57 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\попкорн1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="kino.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="thea.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="soccer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="humor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="art.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="music.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="DAL\DAL.csproj">
+      <Project>{44a16059-73c7-42e0-ae9e-7d39be6aa3eb}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\decam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\an.png" />
+    <Resource Include="Contents\big.png" />
+    <Resource Include="Contents\decam.png" />
+    <Resource Include="Contents\freddy.png" />
+    <Resource Include="Contents\man.png" />
+    <Resource Include="Contents\memory.png" />
+    <Resource Include="Contents\petrov.png" />
+    <Resource Include="Contents\secret.png" />
+    <Resource Include="Contents\vek.png" />
+    <Resource Include="Contents\vestnik.png" />
+    <Resource Include="Contents\what.png" />
+    <Resource Include="Contents\zamok.png" />
+    <Resource Include="Contents\купе6.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.2.1\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.2.1\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -110,5 +264,8 @@
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\MaterialDesignThemes.4.2.1\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MaterialDesignThemes.4.2.1\build\MaterialDesignThemes.targets'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

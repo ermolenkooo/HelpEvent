@@ -1,0 +1,29 @@
+﻿<Window x:Class="HelpEvent.Регистрация"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HelpEvent.View"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Регистрация" Height="600" Width="800">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="попкорн1.jpg"/>
+        </Grid.Background>
+        <Border MinWidth="400" Margin="15" Background="#FFEBCD" VerticalAlignment="Center" Padding="30" MaxWidth="550" CornerRadius="20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Text="Привет! Рады тебя видеть!" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"></TextBlock>
+                <TextBox materialDesign:HintAssist.Hint="Фамилия и имя" Text="{Binding FI}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="Sienna" SelectionBrush="Sienna"></TextBox>
+                <TextBox materialDesign:HintAssist.Hint="Логин" Text="{Binding Login}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="Sienna" SelectionBrush="Sienna"></TextBox>
+                <PasswordBox x:Name="passwordBox" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" CaretBrush="Sienna" SelectionBrush="Sienna"></PasswordBox>
+                <Button Content="Создать аккаунт" Command="{Binding RegCommand}" CommandParameter="{Binding ElementName=passwordBox}"
+                        Margin="0 20" Background="Chocolate" BorderBrush="Sienna"></Button>
+                <Button HorizontalAlignment="Right" Content="Войти" Command="{Binding LogInCommand}"  Style="{StaticResource MaterialDesignFlatButton}" Foreground="Chocolate" BorderThickness="2,0,0,0"></Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
