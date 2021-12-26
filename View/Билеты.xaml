@@ -1,0 +1,47 @@
+﻿<Window x:Class="HelpEvent.View.Билеты"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Билеты" Height="260" Width="370" Icon="/Contents/билеты.png"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <ScrollViewer>
+        <Grid Background="#FFF8DC">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Border>
+                    <ListBox x:Name="ticketsList" ItemsSource="{Binding Tickets}" Grid.Column="0" HorizontalAlignment="Center" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
+                        <ListBox.Effect>
+                            <DropShadowEffect BlurRadius="20" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
+                        </ListBox.Effect>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical" Margin="10">
+                                    <TextBlock FontSize="18" Text="{Binding Path=Name_event}" />
+                                    <TextBlock Text="{Binding Path=Time}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="18" Text="Цена: " />
+                                        <TextBlock FontSize="18" Text="{Binding Path=Price}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="18" Text="Ряд: " />
+                                        <TextBlock FontSize="18" Text="{Binding Path=Row}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="18" Text="Место: " />
+                                        <TextBlock FontSize="18" Text="{Binding Path=Place}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

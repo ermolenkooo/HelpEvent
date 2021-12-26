@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Collections.ObjectModel;
+using System.Collections;
 
 
 namespace HelpEvent.Model
@@ -15,6 +17,8 @@ namespace HelpEvent.Model
         private List<TicketModel> places = new List<TicketModel>();
 
         private TicketModel selectedPlace = new TicketModel();
+
+        private ObservableCollection<TicketModel> selectedItems = new ObservableCollection<TicketModel>();
 
         public List<TicketModel> Places
         {
@@ -33,6 +37,16 @@ namespace HelpEvent.Model
             {
                 selectedPlace = value;
                 OnPropertyChanged("SelectedPlace");
+            }
+        }
+
+        public ObservableCollection<TicketModel> SelectedItems
+        {
+            get { return selectedItems; }
+            set
+            {
+                selectedItems = value;
+                OnPropertyChanged("SelectedItems");
             }
         }
 

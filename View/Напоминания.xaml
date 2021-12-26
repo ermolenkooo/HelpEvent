@@ -3,15 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HelpEvent.View"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Напоминания" Height="260" Width="370">
+        Title="Избранное" Height="260" Width="370" Icon="/Contents/избранное.png"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <ScrollViewer>
     <Grid Background="#FFF8DC">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
         <StackPanel>
             <Border>
-                <ListBox x:Name="remindersList" ItemsSource="{Binding Rems}" Width="300" HorizontalAlignment="Center" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
+                <ListBox x:Name="remindersList" ItemsSource="{Binding Rems}" Grid.Column="0" HorizontalAlignment="Center" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
                     <ListBox.Effect>
                         <DropShadowEffect BlurRadius="20" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
                     </ListBox.Effect>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
@@ -17,8 +18,30 @@ namespace HelpEvent.Model
 
         public EventList()
         {
+            checkDB(db);
             events = db.Event.ToList();
             allEvents = db.Event.ToList().Select(i => new EventModel(i)).ToList();
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
+            }
         }
 
         public List<EventModel> AllEvents

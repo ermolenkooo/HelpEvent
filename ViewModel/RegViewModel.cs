@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.entities;
 using System.Windows;
 using System.Windows.Controls;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using HelpEvent.View;
 using HelpEvent.Model;
 
@@ -18,12 +12,6 @@ namespace HelpEvent.ViewModel
 {
     public class RegViewModel : INotifyPropertyChanged
     {
-        private Guid _viewId;
-        public Guid ViewID
-        {
-            get { return _viewId; }
-        }
-
         UserModel user;
         public UserModel User
         {
@@ -37,17 +25,6 @@ namespace HelpEvent.ViewModel
 
         UserList allUsers = new UserList();
 
-        List<UserModel> users;
-        public List<UserModel> Users
-        {
-            get { return users; }
-            set
-            {
-                users = value;
-                OnPropertyChanged("Users");
-            }
-        }
-
         string login;
 
         public string Login
@@ -60,27 +37,11 @@ namespace HelpEvent.ViewModel
             }
         }
 
-        string fi;
+        Window parentWindow = new Window();
 
-        public string FI
+        public RegViewModel(Window w)
         {
-            get { return fi; }
-            set
-            {
-                fi = value;
-                OnPropertyChanged("FI");
-            }
-        }
-
-        public RegViewModel()
-        {
-            _viewId = Guid.NewGuid();
-
-            Users = new List<UserModel> { };
-            foreach (UserModel u in allUsers.AllUsers)
-            {
-                Users.Add(new UserModel() { Id_user = u.Id_user, Login = u.Login, Password = u.Password });
-            }
+            parentWindow = w;
         }
 
         private RelayCommand regCommand;
@@ -94,7 +55,7 @@ namespace HelpEvent.ViewModel
                       PasswordBox passwordBox = obj as PasswordBox;
                       string clearTextPassword = passwordBox.Password;
 
-                      var u = Users
+                      var u = allUsers.AllUsers
                       .Where(i => i.Login == Login).FirstOrDefault();
                       if (u != null)
                       {
@@ -107,11 +68,11 @@ namespace HelpEvent.ViewModel
                           user.Login = login;
                           user.Password = clearTextPassword;
                           user.newUser(user);
-
-                          //user.FI = fi;
                           
                           MainWindow win = new MainWindow(user);
+                          win.WindowState = parentWindow.WindowState;
                           win.Show();
+                          parentWindow.Close();
                       }
                   }));
             }
@@ -126,8 +87,9 @@ namespace HelpEvent.ViewModel
                   (logInCommand = new RelayCommand(obj =>
                   {
                       Авторизация a = new Авторизация();
-                      WindowManager.CloseWindow(ViewID);
+                      a.WindowState = parentWindow.WindowState;
                       a.Show();
+                      parentWindow.Close();
                   }));
             }
         }

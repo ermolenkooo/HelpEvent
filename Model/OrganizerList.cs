@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
@@ -17,6 +18,7 @@ namespace HelpEvent.Model
 
         public OrganizerList()
         {
+            checkDB(db);
             organizers = db.Organizer.ToList();
             allOrganizers = db.Organizer.ToList().Select(i => new OrganizerModel(i)).ToList();
         }
@@ -24,6 +26,27 @@ namespace HelpEvent.Model
         public List<OrganizerModel> AllOrganizers
         {
             get { return allOrganizers; }
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

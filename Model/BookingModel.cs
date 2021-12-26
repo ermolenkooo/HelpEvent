@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
     public class BookingModel : INotifyPropertyChanged
     {
+        EventDB db = new EventDB();
         private Booking book = new Booking();
 
-        public BookingModel() { }
+        public BookingModel() { checkDB(db); }
 
         public BookingModel(Booking b)
         {
+            checkDB(db);
             book = b;
         }
 
@@ -27,6 +30,16 @@ namespace HelpEvent.Model
             {
                 book.id_booking = value;
                 OnPropertyChanged("Id_booking");
+            }
+        }
+
+        public int Id_event
+        {
+            get { return book.id_event; }
+            set
+            {
+                book.id_event = value;
+                OnPropertyChanged("Id_event");
             }
         }
 
@@ -57,6 +70,38 @@ namespace HelpEvent.Model
             {
                 book.cost = value;
                 OnPropertyChanged("Cost");
+            }
+        }
+
+        public int newBooking(BookingModel b)
+        {
+            book.cost = b.Cost;
+            book.id_event = b.Id_event;
+            book.id_user = b.Id_user;
+            book.number_of_tickets = b.Number_of_tickets;
+            db.Booking.Add(book);
+            db.SaveChanges();
+            return book.id_booking;
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
             }
         }
 

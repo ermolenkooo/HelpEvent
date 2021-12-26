@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
     public class CategoryModel : INotifyPropertyChanged
     {
+        EventDB db = new EventDB();
         private Category cat = new Category();
 
-        public CategoryModel() { }
+        public CategoryModel() { checkDB(db); }
 
         public CategoryModel(Category c)
         {
+            checkDB(db);
             cat = c;
         }
 
@@ -37,6 +40,27 @@ namespace HelpEvent.Model
             {
                 cat.name_category = value;
                 OnPropertyChanged("Name_category");
+            }
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
             }
         }
 

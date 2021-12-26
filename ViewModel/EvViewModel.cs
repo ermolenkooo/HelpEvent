@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-//using DAL.entities;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using HelpEvent.View;
 using HelpEvent.Model;
+using System.Windows;
 
 namespace HelpEvent.ViewModel
 {
@@ -21,10 +16,8 @@ namespace HelpEvent.ViewModel
         VenueModel venue;
 
         OrganizerList allOrganizers = new OrganizerList();
-        public ObservableCollection<OrganizerModel> Organizers { get; set; }
 
         VenueList allVenues = new VenueList();
-        public ObservableCollection<VenueModel> Venues { get; set; }
 
         ReminderList allReminders = new ReminderList();
         public List<ReminderModel> Reminders { get; set; }
@@ -70,52 +63,38 @@ namespace HelpEvent.ViewModel
             }
         }
 
-        public EvViewModel(EventModel ev, UserModel user)
+        Window parentWindow = new Window();
+        public EvViewModel(EventModel ev, UserModel user, Window w)
         {
             this.User = user;
 
             SelectedEvent = ev;
 
-            Organizers = new ObservableCollection<OrganizerModel> { };
-            foreach (OrganizerModel or in allOrganizers.AllOrganizers)
-            {
-                Organizers.Add(new OrganizerModel() {Id_organizer = or.Id_organizer, Name_organizer=or.Name_organizer, Phone=or.Phone});
-            }
+            parentWindow = w;
 
-            organizer = Organizers.Where(i => i.Id_organizer == selectedEvent.Id_organizer).FirstOrDefault();
-
-            Venues = new ObservableCollection<VenueModel> { };
-            foreach (VenueModel v in allVenues.AllVenues)
-            {
-                Venues.Add(new VenueModel() { Id_venue = v.Id_venue, Address= v.Address, Id_city=v.Id_city });
-            }
-
-            venue = Venues.Where(i => i.Id_venue == selectedEvent.Id_venue).FirstOrDefault();
+            venue = allVenues.AllVenues.Where(i => i.Id_venue == selectedEvent.Id_venue).FirstOrDefault();
+            organizer = allOrganizers.AllOrganizers.Where(i => i.Id_organizer == SelectedEvent.Id_organizer).FirstOrDefault();
 
             if (User != null)
             {
-                Reminders = new List<ReminderModel> { };
-                foreach (ReminderModel r in allReminders.AllReminders)
-                {
-                    Reminders.Add(new ReminderModel() { Id_reminder = r.Id_reminder, Id_event = r.Id_event, Id_user = r.Id_user });
-                }
-
-                Reminders = Reminders
+                Reminders = allReminders.AllReminders
                     .Where(i => i.Id_user == User.Id_user)
                     .ToList();
             }
         }
 
-        private RelayCommand logInCommand;
-        public RelayCommand LogInCommand
+        private RelayCommand backCommand;
+        public RelayCommand BackCommand
         {
             get
             {
-                return logInCommand ??
-                  (logInCommand = new RelayCommand(obj =>
+                return backCommand ??
+                  (backCommand = new RelayCommand(obj =>
                   {
-                      Авторизация login = new Авторизация();
-                      login.Show();
+                      MainWindow m = new MainWindow(User);
+                      m.WindowState = parentWindow.WindowState;
+                      m.Show();
+                      parentWindow.Close();
                   }));
             }
         }
@@ -138,8 +117,18 @@ namespace HelpEvent.ViewModel
                           reminder.Id_user = User.Id_user;
                           reminder.Id_event = selectedEvent.Id;
                           reminder.newReminder(reminder);
+                          Увед2 w = new Увед2();
+                          w.ShowDialog();
+                          ReminderList allReminders = new ReminderList();
+                          Reminders = allReminders.AllReminders
+                            .Where(i => i.Id_user == User.Id_user)
+                            .ToList();
                       }
-                      //тут выводить что напоминание уже включалось ранее или что вот ура включилось
+                      else
+                      {
+                          Увед1 w = new Увед1();
+                          w.ShowDialog();
+                      }
                   }));
             }
         }
@@ -152,9 +141,10 @@ namespace HelpEvent.ViewModel
                 return bookingCommand ??
                   (bookingCommand = new RelayCommand(obj =>
                   {
-                      var a = 0;
                       Бронирование book = new Бронирование(User, SelectedEvent);
+                      book.WindowState = parentWindow.WindowState;
                       book.Show();
+                      parentWindow.Close();
                   }));
             }
         }

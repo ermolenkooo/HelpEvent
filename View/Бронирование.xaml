@@ -3,58 +3,70 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HelpEvent.View"
+        xmlns:local="clr-namespace:HelpEvent"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="Бронирование" Height="450" Width="800">
+        Title="Бронирование" Icon="/Contents/бронь.png" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen">
     <Grid Background="#FFF8DC">
-        <StackPanel HorizontalAlignment="Center">
-            <ListBox x:Name="eventsList1" ItemsSource="{Binding Rows}" HorizontalAlignment="Center" Margin="0,14,0,0">
-                <ListBox.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="ListBoxItem.Background" Value="#FFF8DC"/>
-                        <Setter Property="ListBoxItem.Focusable" Value="False"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <ListBox ItemsSource="{Binding Path=Places}" SelectionMode="Multiple" SelectedItem="{Binding SelectedPlace}" HorizontalAlignment="Center" Margin="0,14,0,0">
-                            <ListBox.ItemContainerStyle>
-                                <Style>
-                                    <Setter Property="ListBoxItem.Background" Value="#F4A460"/>
-                                    <Setter Property="ListBoxItem.Padding" Value="5"/>
-                                    <Setter Property="ListBoxItem.Margin" Value="5"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Place}"></TextBlock>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                            <!--<i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseLeftButtonUp">
-                                    <i:InvokeCommandAction
-                                    Command="{Binding PlaceCommand}"
-                                    CommandParameter="{Binding SelectedPlace}" />   
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
-                        </ListBox>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseLeftButtonUp">
-                                    <i:InvokeCommandAction
-                                    Command="{Binding PlaceCommand}"
-                                     />   
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-            </ListBox>
-            <Button Command="{Binding PlaceCommand}"></Button>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.2*" />
+        </Grid.RowDefinitions>
+        <ListBox x:Name="eventsList1" VerticalAlignment="Center" ItemsSource="{Binding Rows}" Grid.Row="0" HorizontalAlignment="Center" Margin="0,14,0,0">
+            <ListBox.ItemContainerStyle>
+                <Style>
+                    <Setter Property="ListBoxItem.Opacity" Value="1"/>
+                    <Setter Property="ListBoxItem.Focusable" Value="False"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <local:NewListBox ItemsSource="{Binding Path=Places}" SelectionMode="Multiple" Grid.Row="0" SelectedItemsList="{Binding SelectedItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,14,0,0">
+                        <ListBox.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="ListBoxItem.Background" Value="#F4A460"/>
+                                <Setter Property="ListBoxItem.Padding" Value="17, 15"/>
+                                <Setter Property="ListBoxItem.Margin" Value="8"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Status}" Value="2">
+                                        <Setter Property="ListBoxItem.Background" Value="#A0522D" />
+                                        <Setter Property="ListBoxItem.Focusable" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Place}"></TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </local:NewListBox>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction
+                           Command="{Binding PlaceCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+        <Button Width="35" Height="35" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20 20 0 20" Command="{Binding BackCommand}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Source="/Contents/undo.png"/>
+            </StackPanel>
+        </Button>
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+            <StackPanel Margin="20, 20, 20, 0"  Orientation="Horizontal">
+                <TextBlock Text="Стоимость:" FontSize="16" FontFamily="Complex"></TextBlock>
+                <TextBlock Text="{Binding Cost}" FontSize="16" FontFamily="Complex"></TextBlock>
+            </StackPanel>
+            <Button Margin="20" Command="{Binding NewBookingCommand}" Width="300" Content="Забронировать" Background="Chocolate" BorderBrush="Sienna"></Button>
         </StackPanel>
     </Grid>
 </Window>

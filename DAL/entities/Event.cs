@@ -28,8 +28,6 @@ namespace DAL.entities
         [StringLength(250)]
         public string description { get; set; }
 
-        public int number_of_seats { get; set; }
-
         public int id_organizer { get; set; }
 
         public int id_category { get; set; }

@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
     public class EventModel : INotifyPropertyChanged
     {
+        EventDB db = new EventDB();
         private Event eve = new Event();
 
-        public EventModel() { }
+        public EventModel() { checkDB(db); }
 
         public EventModel(Event ev)
         {
+            checkDB(db);
             eve = ev;
         }
 
@@ -47,16 +46,6 @@ namespace HelpEvent.Model
             {
                 eve.description = value;
                 OnPropertyChanged("Description");
-            }
-        }
-
-        public int Number_of_seats
-        {
-            get { return eve.number_of_seats; }
-            set
-            {
-                eve.number_of_seats = value;
-                OnPropertyChanged("Number_of_seats");
             }
         }
 
@@ -120,65 +109,26 @@ namespace HelpEvent.Model
             }
         }
 
-        //public Organizer Organizer
-        //{
-        //    get { return events.Organizer; }
-        //    set
-        //    {
-        //        events.Organizer = value;
-        //        OnPropertyChanged("Organizer");
-        //    }
-        //}
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
 
-        //public Category Category
-        //{
-        //    get { return events.Category; }
-        //    set
-        //    {
-        //        events.Category = value;
-        //        OnPropertyChanged("Category");
-        //    }
-        //}
-
-        //public DAL.entities.Type Type
-        //{
-        //    get { return events.Type; }
-        //    set
-        //    {
-        //        events.Type = value;
-        //        OnPropertyChanged("Type");
-        //    }
-        //}
-
-        //public Venue Venue
-        //{
-        //    get { return events.Venue; }
-        //    set
-        //    {
-        //        events.Venue = value;
-        //        OnPropertyChanged("Venue");
-        //    }
-        //}
-
-        //public ICollection<Booking> Booking
-        //{
-        //    get { return events.Booking; }
-        //    set
-        //    {
-        //        events.Booking = value;
-        //        OnPropertyChanged("Booking");
-        //    }
-        //}
-
-        //public ICollection<Reminder> Reminder
-        //{
-        //    get { return events.Reminder; }
-        //    set
-        //    {
-        //        events.Reminder = value;
-        //        OnPropertyChanged("Reminder");
-        //    }
-        //}
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

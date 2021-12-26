@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
@@ -15,10 +16,11 @@ namespace HelpEvent.Model
 
         private Reminder reminder = new Reminder();
 
-        public ReminderModel() { }
+        public ReminderModel() { checkDB(db); }
 
         public ReminderModel(Reminder r)
         {
+            checkDB(db);
             reminder = r;
         }
 
@@ -29,6 +31,27 @@ namespace HelpEvent.Model
             {
                 reminder.id_reminder = value;
                 OnPropertyChanged("Id_reminder");
+            }
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
             }
         }
 

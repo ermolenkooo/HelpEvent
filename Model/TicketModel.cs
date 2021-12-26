@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
     public class TicketModel : INotifyPropertyChanged
     {
+        EventDB db = new EventDB();
         private Ticket ticket = new Ticket();
 
-        public TicketModel() { }
+        public TicketModel() { checkDB(db); }
 
         public TicketModel(Ticket t)
         {
+            checkDB(db);
             ticket = t;
         }
 
@@ -70,15 +73,37 @@ namespace HelpEvent.Model
             }
         }
 
-        //public int Id_booking
-        //{
-        //    get { return (int)ticket.id_booking; }
-        //    set
-        //    {
-        //        ticket.id_booking = value;
-        //        OnPropertyChanged("Id_booking");
-        //    }
-        //}
+        string name_event;
+        public string Name_event
+        {
+            get { return name_event; }
+            set
+            {
+                name_event = value;
+                OnPropertyChanged("Name_event");
+            }
+        }
+
+        DateTime time;
+        public DateTime Time
+        {
+            get { return time; }
+            set
+            {
+                time = value;
+                OnPropertyChanged("Time");
+            }
+        }
+
+        public int? Id_booking
+        {
+            get { return ticket.id_booking; }
+            set
+            {
+                ticket.id_booking = value;
+                OnPropertyChanged("Id_booking");
+            }
+        }
 
         public int Status
         {
@@ -87,6 +112,39 @@ namespace HelpEvent.Model
             {
                 ticket.status = value;
                 OnPropertyChanged("Status");
+            }
+        }
+
+        public void Selected()
+        {
+            db.Ticket.Where(i => i.id_ticket == ticket.id_ticket).FirstOrDefault().status = 2;
+            db.SaveChanges();
+        }
+
+        public void set_id_book(int id)
+        {
+            db.Ticket.Where(i => i.id_ticket == ticket.id_ticket).FirstOrDefault().id_booking = id;
+            db.SaveChanges();
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
             }
         }
 

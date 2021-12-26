@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
     public class TypeModel : INotifyPropertyChanged
     {
+        EventDB db = new EventDB();
         private DAL.entities.Type typ = new DAL.entities.Type();
 
-        public TypeModel() { }
+        public TypeModel() { checkDB(db); }
 
         public TypeModel(DAL.entities.Type t)
         {
+            checkDB(db);
             typ = t;
         }
 
@@ -37,6 +40,27 @@ namespace HelpEvent.Model
             {
                 typ.name_type = value;
                 OnPropertyChanged("Name_type");
+            }
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
             }
         }
 

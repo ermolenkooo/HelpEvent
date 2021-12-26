@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.entities;
 using System.Windows;
 using System.Windows.Controls;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using HelpEvent.View;
 using HelpEvent.Model;
 
@@ -18,12 +12,6 @@ namespace HelpEvent.ViewModel
 {
     public class AutoViewModel : INotifyPropertyChanged
     {
-        private Guid _viewId;
-        public Guid ViewID
-        {
-            get { return _viewId; }
-        }
-
         UserModel user;
         public UserModel User
         {
@@ -36,17 +24,6 @@ namespace HelpEvent.ViewModel
         }
 
         UserList allUsers = new UserList();
-
-        List<UserModel> users;
-        public List<UserModel> Users
-        {
-            get { return users; }
-            set
-            {
-                users = value;
-                OnPropertyChanged("Users");
-            }
-        }
 
         string login;
 
@@ -76,26 +53,16 @@ namespace HelpEvent.ViewModel
             }
         }
 
-        public AutoViewModel()
+        Window parentWindow = new Window();
+
+        public AutoViewModel(Window w)
         {
-            _viewId = Guid.NewGuid();
-
-            Users = new List<UserModel> { };
-            foreach (UserModel u in allUsers.AllUsers)
-            {
-                Users.Add(new UserModel() { Id_user = u.Id_user, Login = u.Login, Password = u.Password });
-            }
-
-            Reminders = new List<ReminderModel> { };
-            foreach (ReminderModel r in allReminders.AllReminders)
-            {
-                Reminders.Add(new ReminderModel() { Id_reminder = r.Id_reminder, Id_event = r.Id_event, Id_user = r.Id_user });
-            }
+            parentWindow = w;
 
             Events = new List<EventModel> { };
             foreach (EventModel ev in allEvents.AllEvents)
             {
-                Events.Add(new EventModel() { Id = ev.Id, Description = ev.Description, Id_category = ev.Id_category, Id_organizer = ev.Id_organizer, Id_type = ev.Id_type, Id_venue = ev.Id_venue, Name = ev.Name, Number_of_seats = ev.Number_of_seats, Poster = ev.Poster, Time = ev.Time });
+                Events.Add(new EventModel() { Id = ev.Id, Description = ev.Description, Id_category = ev.Id_category, Id_organizer = ev.Id_organizer, Id_type = ev.Id_type, Id_venue = ev.Id_venue, Name = ev.Name, Poster = ev.Poster, Time = ev.Time });
             }
         }
 
@@ -113,16 +80,18 @@ namespace HelpEvent.ViewModel
                       PasswordBox passwordBox = obj as PasswordBox;
                       string clearTextPassword = passwordBox.Password;
 
-                      var u = Users
+                      var u = allUsers.AllUsers
                       .Where(i => i.Login == Login && i.Password == clearTextPassword).FirstOrDefault();
                       if (u != null)
                       {
                           user = u;
 
                           MainWindow win = new MainWindow(user);
+                          win.WindowState = parentWindow.WindowState;
                           win.Show();
+                          parentWindow.Close();
 
-                          var res = Reminders
+                          var res = allReminders.AllReminders
                           .Join(Events, r => r.Id_event, e => e.Id, (r, e) => new { r.Id_user, e.Name, e.Time })
                           .Where(i => i.Id_user == User.Id_user && i.Time - DateTime.Now < inter && i.Time - DateTime.Now > inter1)
                           .Select(i => new RemOutput() { Name = i.Name, Time = i.Time })
@@ -151,8 +120,9 @@ namespace HelpEvent.ViewModel
                   (registrCommand = new RelayCommand(obj =>
                   {
                       Регистрация reg = new Регистрация();
-                      WindowManager.CloseWindow(ViewID);
+                      reg.WindowState = parentWindow.WindowState;
                       reg.Show();
+                      parentWindow.Close();
                   }));
             }
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
@@ -14,10 +15,11 @@ namespace HelpEvent.Model
         EventDB db = new EventDB();
         private User user = new User();
 
-        public UserModel() { }
+        public UserModel() { checkDB(db); }
 
         public UserModel(User u)
         {
+            checkDB(db);
             user = u;
         }
 
@@ -51,22 +53,33 @@ namespace HelpEvent.Model
             }
         }
 
-        //public string FI
-        //{
-        //    get { return user.FI; }
-        //    set
-        //    {
-        //        user.FI = value;
-        //        OnPropertyChanged("FI");
-        //    }
-        //}
-
         public void newUser(UserModel us)
         {
             user.login = us.Login;
             user.password = us.Password;
             db.User.Add(user);
             db.SaveChanges();
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

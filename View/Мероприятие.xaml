@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:HelpEvent"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Мероприятие" Height="680" Width="955">
+        Title="Мероприятие" Height="700" Width="1000" Icon="/Contents/главное.png"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <local:IsNullConverter x:Key="isNullConverter"/>
@@ -20,34 +21,32 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="#FFF8DC">
-        <StackPanel>
-            <!--<Border Margin="0" Background="#FFE4C4" VerticalAlignment="Top" Padding="0 8 0 8" >
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0"/>
-                </Border.Effect>
-                <StackPanel>
-                    <Button Content="Войти" Command="{Binding LogInCommand}" Margin="0 0 10 0" HorizontalAlignment="Right" Background="Chocolate" BorderBrush="Sienna"/>
-                </StackPanel>
-            </Border>-->
-
-            <StackPanel Orientation="Horizontal" Margin="25">
-                <StackPanel VerticalAlignment="Center">
-                    <Image Source="{Binding SelectedEvent.Poster}" Width="350" VerticalAlignment="Center"></Image>
-                </StackPanel>
-                <StackPanel Margin="25 0" Width="520">
-                    <TextBlock Text="{Binding SelectedEvent.Name}" FontSize="36" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Bodoni MT Black" Foreground="Sienna"/>
-                    <StackPanel Orientation="Horizontal" Margin="0 15">
-                        <Button Content="Включить напоминание" Command="{Binding RemCommand}" HorizontalAlignment="Right" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}"/>
-                        <Button Content="Забронировать билет" Command="{Binding BookingCommand}" Margin="30 0 0 0" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}"/>
+    <Grid Background="#FFF8DC" HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Column="0">
+                <Button Width="35" Height="35" HorizontalAlignment="Left" Margin="20 20 0 10" Command="{Binding BackCommand}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="0">
+                        <Image Source="/Contents/undo.png"/>
                     </StackPanel>
-                    <TextBlock Text="{Binding SelectedEvent.Description}" TextWrapping="Wrap" FontSize="24" FontFamily="Complex"></TextBlock>
-                    <TextBlock Margin="0 50 0 0" Text="{Binding SelectedEvent.Time}" FontSize="24" FontFamily="Complex" FontWeight="Bold"></TextBlock>
-                    <TextBlock Margin="0 0 0 50" Text="{Binding Venue.Address}" FontSize="24" FontFamily="Complex" FontWeight="Bold"></TextBlock>
-                    <TextBlock Text="Организатор:" FontSize="24" FontFamily="Complex"></TextBlock>
-                    <TextBlock Text="{Binding Organizer.Name_organizer}" TextWrapping="Wrap" FontSize="24" FontFamily="Complex"></TextBlock>
-                </StackPanel>
+                </Button>
+                <Image Source="{Binding SelectedEvent.Poster}" Grid.Column="0" Margin="10 15 0 15" MaxWidth="470" VerticalAlignment="Center" HorizontalAlignment="Stretch"></Image>
             </StackPanel>
-        </StackPanel>
+            <StackPanel Margin="15 30 15 10" Grid.Column="1" HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding SelectedEvent.Name}" FontSize="36" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Bodoni MT Black" Foreground="Sienna"/>
+                <StackPanel Orientation="Horizontal" Margin="0 15" HorizontalAlignment="Stretch">
+                    <Button Content="Включить напоминание" Command="{Binding RemCommand}" HorizontalAlignment="Right" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}"/>
+                    <Button Content="Забронировать билет" Command="{Binding BookingCommand}" Margin="30 0 0 0" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}"/>
+                </StackPanel>
+                <TextBlock Text="{Binding SelectedEvent.Description}" TextWrapping="Wrap" FontSize="24" FontFamily="Complex"></TextBlock>
+                <TextBlock Margin="0 50 0 0" Text="{Binding SelectedEvent.Time}" FontSize="24" FontFamily="Complex" FontWeight="Bold"></TextBlock>
+                <TextBlock Margin="0 0 0 50" Text="{Binding Venue.Address}" FontSize="24" FontFamily="Complex" FontWeight="Bold"></TextBlock>
+                <TextBlock Text="Организатор:" FontSize="24" FontFamily="Complex"></TextBlock>
+                <TextBlock Text="{Binding Organizer.Name_organizer}" TextWrapping="Wrap" FontSize="24" FontFamily="Complex"></TextBlock>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

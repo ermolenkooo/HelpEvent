@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.entities;
+using System.Windows;
 
 namespace HelpEvent.Model
 {
     public class OrganizerModel : INotifyPropertyChanged
     {
+        EventDB db = new EventDB();
         private Organizer organizer = new Organizer();
 
-        public OrganizerModel() { }
+        public OrganizerModel() { checkDB(db); }
 
         public OrganizerModel(Organizer o)
         {
+            checkDB(db);
             organizer = o;
         }
 
@@ -27,6 +30,27 @@ namespace HelpEvent.Model
             {
                 organizer.id_organizer = value;
                 OnPropertyChanged("Id_organizer");
+            }
+        }
+
+        private void DBException()
+        {
+            MessageBox.Show("Ошибка подключения к базе, приложение будет закрыто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Environment.Exit(0);
+        }
+
+        private void checkDB(EventDB db)
+        {
+            try
+            {
+                if (!db.Database.Exists())
+                {
+                    DBException();
+                }
+            }
+            catch (System.InvalidOperationException)
+            {
+                DBException();
             }
         }
 

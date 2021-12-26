@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HelpEvent.View"
         mc:Ignorable="d"
-        Title="ОшибкаВхода" Height="100" Width="355">
+        Title="ОшибкаВхода" Height="100" Width="355" Icon="/Contents/ошибка.png"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <Grid Background="#FFEBCD">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Неверный логин или пароль!" FontFamily="Arial Black" FontSize="20" Foreground="Sienna"/>

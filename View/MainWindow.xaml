@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:HelpEvent"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        xmlns:entities="clr-namespace:DAL.entities;assembly=DAL" x:Class="HelpEvent.MainWindow"
+        x:Class="HelpEvent.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Icon="/Contents/главное.png" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <local:IsNullConverter x:Key="isNullConverter"/> <!--войти-->
+        <local:IsNullConverter x:Key="isNullConverter"/>
         <Style x:Key="styleBut" TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
             <Setter Property="Visibility" Value="Visible" />
             <Style.Triggers>
@@ -28,6 +29,70 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="styleBut2" TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperButton}">
+            <Setter Property="Visibility" Value="Hidden" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding User, Converter={StaticResource isNullConverter}}" Value="False">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut3" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Background" Value="Chocolate" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Selected1}" Value="True">
+                    <Setter Property="Background" Value="#FFF8DC" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut4" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Background" Value="Chocolate" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Selected2}" Value="True">
+                    <Setter Property="Background" Value="#FFF8DC" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut5" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Background" Value="Chocolate" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Selected3}" Value="True">
+                    <Setter Property="Background" Value="#FFF8DC" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut6" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Background" Value="Chocolate" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Selected4}" Value="True">
+                    <Setter Property="Background" Value="#FFF8DC" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut7" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Background" Value="Chocolate" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Selected5}" Value="True">
+                    <Setter Property="Background" Value="#FFF8DC" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut8" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Background" Value="Chocolate" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Selected6}" Value="True">
+                    <Setter Property="Background" Value="#FFF8DC" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="styleBut9" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Background" Value="Chocolate" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Selected7}" Value="True">
+                    <Setter Property="Background" Value="#FFF8DC" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <ScrollViewer>
@@ -38,64 +103,76 @@
                         <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0"/>
                     </Border.Effect>
                     <StackPanel Orientation="Horizontal">
-                        <Button Width="35" Height="35" HorizontalAlignment="Right" Margin="10 0" Command="{Binding RemCommand}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\love.png"/>
-                            </StackPanel>
-                        </Button>
-                        <Button Content="Войти" Command="{Binding LogInCommand}" Margin="0 0 10 0" 
+                        
+                        <Button Content="Войти" Command="{Binding LogInCommand}" Margin="10 0" 
                         HorizontalAlignment="Right" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut}">
                         </Button>
-                    </StackPanel>
-                </Border>
-                <Border>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat1Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                        <Button Content="Отчёт" Command="{Binding ReportCommand}" Margin="10 0" 
+                        HorizontalAlignment="Right" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignPaperButton}">
+                        </Button>
+                        <Button Content="Выйти" Command="{Binding LogOutCommand}" Margin="0 0 10 0" 
+                        HorizontalAlignment="Right" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut2}">
+                        </Button>
+                        <Button Width="35" Height="35" HorizontalAlignment="Right" Margin="0 0 10 0" Command="{Binding RemCommand}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\kino.png"/>
+                                <Image Source="/Contents/love.png"/>
                             </StackPanel>
                         </Button>
-
-                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat3Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                        <Button Width="35" Height="35" HorizontalAlignment="Right" Margin="0 0 10 0" Command="{Binding BookCommand}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource styleBut1}">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\thea.png"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat4Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\soccer.png"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat7Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\book.png"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat5Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\humor.png"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat2Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\art.png"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat6Command}" Background="Chocolate" BorderBrush="Sienna" Style="{StaticResource MaterialDesignFloatingActionButton}">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="D:\music.png"/>
+                                <Image Source="/Contents/stamp.png"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
                 </Border>
                 <Border>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <ComboBox ItemsSource="{Binding Cities}" SelectedItem="{Binding SelectedCity}" Margin="20 5" Foreground="Sienna" BorderBrush="Sienna" 
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat1Command}" BorderBrush="Sienna" Style="{StaticResource styleBut3}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Contents/kino.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat3Command}" BorderBrush="Sienna" Style="{StaticResource styleBut4}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Contents/thea.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat4Command}" BorderBrush="Sienna" Style="{StaticResource styleBut5}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Contents/soccer.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat7Command}" BorderBrush="Sienna" Style="{StaticResource styleBut6}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Contents/book.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat5Command}" BorderBrush="Sienna" Style="{StaticResource styleBut7}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Contents/humor.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat2Command}" BorderBrush="Sienna" Style="{StaticResource styleBut8}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Contents/art.png"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button MinWidth="45" MinHeight="45" Margin="15" Command="{Binding Cat6Command}" BorderBrush="Sienna" Style="{StaticResource styleBut9}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Contents/music.png"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <Border>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ComboBox ItemsSource="{Binding Cities}" SelectedItem="{Binding SelectedCity, Mode=TwoWay}" Margin="20 5" Foreground="Sienna" BorderBrush="Sienna" 
                                   materialDesign:HintAssist.Hint="Выберите город" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -103,7 +180,7 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" Margin="20 5" Foreground="Sienna" BorderBrush="Sienna" materialDesign:HintAssist.Hint="Выберите тип мероприятия" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType, Mode=TwoWay}" Margin="20 5" Foreground="Sienna" BorderBrush="Sienna" materialDesign:HintAssist.Hint="Выберите тип мероприятия" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Name_type}" />
@@ -113,16 +190,24 @@
                         <Button Content="Найти" Command="{Binding SearchCommand}" Margin="20 5" Background="Chocolate" BorderBrush="Sienna"/>
                     </StackPanel>
                 </Border>
+                <TextBlock Text="{Binding SelectedCategory.Name_category}" Margin="0 10" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" FontFamily="Bodoni MT Black" Foreground="Sienna"></TextBlock>
                 <Border>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <ListBox x:Name="eventsList1" ItemsSource="{Binding Events1}" SelectedItem="{Binding SelectedEvent}" Width="300" HorizontalAlignment="Center" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+                    <ListBox x:Name="eventsList1" ItemsSource="{Binding Events1}" SelectedItem="{Binding SelectedEvent}" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
                         <ListBox.Effect>
                             <DropShadowEffect BlurRadius="20" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
                         </ListBox.Effect>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="15">
-                                        <Image Source="{Binding Path=Poster}" Width="200" Height="300"></Image>
+                                        <Image Source="{Binding Path=Poster}" MinHeight="300" MaxHeight="430"></Image>
                                     <TextBlock FontSize="18" Text="{Binding Path=Name}" />
                                     <TextBlock Text="{Binding Path=Time}" />
                                 </StackPanel>
@@ -136,14 +221,14 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListBox>
-                        <ListBox x:Name="eventsList2" ItemsSource="{Binding Events2}" SelectedItem="{Binding SelectedEvent}" Width="300" HorizontalAlignment="Center" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
+                        <ListBox ItemsSource="{Binding Events2}" SelectedItem="{Binding SelectedEvent}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
                             <ListBox.Effect>
                                 <DropShadowEffect BlurRadius="20" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
                             </ListBox.Effect>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="15">
-                                        <Image Source="{Binding Path=Poster}" Width="200" Height="300"></Image>
+                                        <Image Source="{Binding Path=Poster}" MinHeight="300" MaxHeight="430"></Image>
                                         <TextBlock FontSize="18" Text="{Binding Path=Name}" />
                                         <TextBlock Text="{Binding Path=Time}" />
                                     </StackPanel>
@@ -157,7 +242,28 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ListBox>
-                    </StackPanel>
+                        <ListBox ItemsSource="{Binding Events3}" SelectedItem="{Binding SelectedEvent}" Grid.Column="3" HorizontalAlignment="Stretch" Margin="0,14,0,0" Style="{StaticResource MaterialDesignCardsListBox}">
+                            <ListBox.Effect>
+                                <DropShadowEffect BlurRadius="20" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
+                            </ListBox.Effect>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="15">
+                                        <Image Source="{Binding Path=Poster}" MinHeight="300" MaxHeight="430"></Image>
+                                        <TextBlock FontSize="18" Text="{Binding Path=Name}" />
+                                        <TextBlock Text="{Binding Path=Time}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction
+                            Command="{Binding InfoCommand}"
+                            CommandParameter="{Binding SelectedEvent}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListBox>
+                    </Grid>
                 </Border>
             </StackPanel>
         </Grid>

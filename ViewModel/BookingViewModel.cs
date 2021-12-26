@@ -4,24 +4,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.entities;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using HelpEvent.View;
 using HelpEvent.Model;
+using System.Windows;
 
 namespace HelpEvent.ViewModel
 {
     public class BookingViewModel : INotifyPropertyChanged
     {
-        public Guid _viewId;
-        public Guid ViewID
-        {
-            get { return _viewId; }
-        }
-
         UserModel user;
         public UserModel User
         {
@@ -79,22 +69,35 @@ namespace HelpEvent.ViewModel
             }
         }
 
-        TicketModel selectedPlace;
-        public TicketModel SelectedPlace
+        BookingModel newBook;
+        public BookingModel NewBook
         {
-            get { return selectedPlace; }
+            get { return newBook; }
             set
             {
-                selectedPlace = value;
-                OnPropertyChanged("SelectedPlace");
+                newBook = value;
+                OnPropertyChanged("NewBook");
             }
         }
 
-        public BookingViewModel(UserModel user, EventModel ev)
+        decimal cost = 0;
+        public decimal Cost
+        {
+            get { return cost; }
+            set
+            {
+                cost = value;
+                OnPropertyChanged("Cost");
+            }
+        }
+
+        Window parentWindow = new Window();
+
+        public BookingViewModel(UserModel user, EventModel ev, Window w)
         {
             SelectedEvent = ev;
 
-            _viewId = Guid.NewGuid();
+            parentWindow = w;
 
             this.User = user;
 
@@ -128,21 +131,76 @@ namespace HelpEvent.ViewModel
                 return placeCommand ??
                   (placeCommand = new RelayCommand(obj =>
                   {
-                      for (int i = 0; i < Rows.Count; i++)
+                      SelectedTickets = new List<TicketModel>();
+                      int i = 0;
+                      int j = 0;
+                      Cost = 0;
+                      while (i < Rows.Count)
                       {
-                          TicketModel tr = SelectedTickets.Where(j => j.Id_ticket == Rows[i].SelectedPlace.Id_ticket).FirstOrDefault();
-                          if (Rows[i].SelectedPlace.Id_event != 0)
-                              if (SelectedTickets.Where(j => j.Id_ticket == Rows[i].SelectedPlace.Id_ticket).FirstOrDefault() == null)
-                                  SelectedTickets.Add(Rows[i].SelectedPlace);
-                              else SelectedTickets.Remove(tr);
-                          Rows[i].SelectedPlace = new TicketModel();
+                          j = 0;
+                          while (j < Rows[i].SelectedItems.Count)
+                          {
+                              SelectedTickets.Add(Rows[i].SelectedItems[j]);
+                              Cost += Rows[i].SelectedItems[j].Price;
+                              j++;
+                          }
+                          i++;
                       }
+                  }));
+            }
+        }
 
-                      //TicketModel t = (TicketModel)obj;
-                      //var res = SelectedTickets.Where(i => i.Id_ticket == t.Id_ticket);
-                      //if (res == null)
-                      //    SelectedTickets.Add(t);
-                      //else SelectedTickets.Remove(t);
+        private RelayCommand newBookingCommand;
+        public RelayCommand NewBookingCommand
+        {
+            get
+            {
+                return newBookingCommand ??
+                  (newBookingCommand = new RelayCommand(obj =>
+                  {
+                      if (SelectedTickets.Count != 0)
+                      {
+                          int i = 0;
+                          while (i < SelectedTickets.Count)
+                          {
+                              SelectedTickets[i].Selected();
+                              i++;
+                          }
+                          NewBook = new BookingModel();
+                          NewBook.Id_user = User.Id_user;
+                          NewBook.Number_of_tickets = SelectedTickets.Count;
+                          NewBook.Cost = Cost;
+                          NewBook.Id_event = SelectedEvent.Id;
+                          int id_book = NewBook.newBooking(NewBook);
+                          i = 0;
+                          while (i < SelectedTickets.Count)
+                          {
+                              SelectedTickets[i].set_id_book(id_book);
+                              i++;
+                          }
+                          Бронь win = new Бронь();
+                          win.ShowDialog();
+                          Мероприятие w = new Мероприятие(SelectedEvent, User);
+                          w.WindowState = parentWindow.WindowState;
+                          w.Show();
+                          parentWindow.Close();
+                      }
+                  }));
+            }
+        }
+
+        private RelayCommand backCommand;
+        public RelayCommand BackCommand
+        {
+            get
+            {
+                return backCommand ??
+                  (backCommand = new RelayCommand(obj =>
+                  {
+                      Мероприятие m = new Мероприятие(SelectedEvent, User);
+                      m.WindowState = parentWindow.WindowState;
+                      m.Show();
+                      parentWindow.Close();
                   }));
             }
         }

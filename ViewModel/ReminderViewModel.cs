@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.entities;
-using System.Data.SqlClient;
-using System.Data.Entity;
-using HelpEvent.View;
 using HelpEvent.Model;
 
 namespace HelpEvent.ViewModel
@@ -71,7 +64,7 @@ namespace HelpEvent.ViewModel
             Events = new List<EventModel> { };
             foreach (EventModel ev in allEvents.AllEvents)
             {
-                Events.Add(new EventModel() { Id = ev.Id, Description = ev.Description, Id_category = ev.Id_category, Id_organizer = ev.Id_organizer, Id_type = ev.Id_type, Id_venue = ev.Id_venue, Name = ev.Name, Number_of_seats = ev.Number_of_seats, Poster = ev.Poster, Time = ev.Time });
+                Events.Add(new EventModel() { Id = ev.Id, Description = ev.Description, Id_category = ev.Id_category, Id_organizer = ev.Id_organizer, Id_type = ev.Id_type, Id_venue = ev.Id_venue, Name = ev.Name, Poster = ev.Poster, Time = ev.Time });
             }
 
             Reminders = new List<ReminderModel> { };
@@ -85,39 +78,6 @@ namespace HelpEvent.ViewModel
                         .Where(i => i.Id_user == User.Id_user)
                         .Select(i => new RemOutput() { Name = i.Name, Time = i.Time })
                         .ToList();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-    }
-
-    public class RemOutput : INotifyPropertyChanged
-    {
-        public string name;
-        public DateTime time;
-
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        public DateTime Time
-        {
-            get { return time; }
-            set
-            {
-                time = value;
-                OnPropertyChanged("Time");
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
